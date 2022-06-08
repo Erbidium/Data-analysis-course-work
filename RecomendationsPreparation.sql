@@ -50,18 +50,19 @@ result AS (SELECT links.movieId AS id,
 FROM movieTable
 INNER JOIN links ON links.tmdbId = movieTable.id
 INNER JOIN moviesRecomendations ON moviesRecomendations.movieId = links.movieId)
-INSERT INTO recomendMovies
+INSERT INTo recomendMovies
 SELECT
 id,
-title, 
-genres, 
-overview, 
-production_companies, 
+REPLACE(title, ';', ','), 
+REPLACE(genres, ';', ','), 
+REPLACE(overview, ';', ','), 
+REPLACE(production_companies, ';', ','), 
 release_date, 
-budget, 
+budget,
 revenue, 
 runtime
 FROM result;
+
 
 CREATE  NONCLUSTERED INDEX recomendMoviesNOCLUSTEREDINDEX ON recomendMovies(id);
 
@@ -97,3 +98,8 @@ where movieId not in (select id from recomendMovies);
 SELECT COUNT(*) FROM Ratings;
 
 SELECT * FROM Ratings;
+
+SELECT *
+FROM movies
+
+SELECT * FROM recomendMovies WHERE id=33454
